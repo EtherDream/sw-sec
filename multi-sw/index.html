@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <title>SW 多线程</title>
+  <meta charset="utf-8">
+</head>
+<body>
+  线程数：<input id="txtNum" type="number">
+  <button id="btnMake">创建</button>
+  <script>
+    txtNum.value = navigator.hardwareConcurrency;
+
+    const sw = navigator.serviceWorker;
+
+    btnMake.onclick = async function() {
+      let threads = +txtNum.value;
+
+      // 串行（慢）
+      // for (let i = 0; i < threads; i++) {
+      //   await sw.register('sw.js', {scope: i});
+      // }
+
+      // 并行（快）
+      let tasks = [];
+
+      for (let i = 0; i < threads; i++) {
+        tasks[i] = sw.register('sw.js', {scope: i});
+      }
+      await Promise.all(tasks);
+
+      console.log('done');
+    };
+  </script>
+</body>
+</html>

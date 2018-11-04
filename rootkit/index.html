@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+  <title>JSONP 页面</title>
+  <meta charset="utf-8">
+  <script src="js/hello.js"></script>
+</head>
+<body>
+  <h1>正常页面</h1>
+  <h2>该页面没有 XSS 漏洞，但后端<a href="getData.php?callback=importScripts(''),">某个 JSONP 接口</a>有问题。</h2>
+  <p>
+    <a href="vul-1.html" target="_blank">访问当前站点下有 XSS 的页面</a>
+  </p>
+</body>
+</html>

